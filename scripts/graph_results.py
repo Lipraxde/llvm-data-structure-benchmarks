@@ -136,7 +136,7 @@ def graph_results(benchmark_results, out_dir):
             )
             figure = plotly.graph_objs.Figure(data=traces, layout=layout)
             # plotly.offline.plot(figure,
-            #                     filename="%s_data_size_%d.html" % (benchmark_fn, data_size),
+            #                     filename=os.path.join(out_dir,"%s_data_size_%d.html" % (benchmark_fn, data_size)),
             #                     auto_open=False)
             plotly.io.write_image(figure, os.path.join(out_dir,
                                                        name_file(benchmark_fn, data_size, max_cardinality)))
