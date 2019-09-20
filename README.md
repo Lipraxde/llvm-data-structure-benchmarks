@@ -21,7 +21,7 @@ After the program churns for a few minutes, you'll get a new `graphs` directory 
 
 1. `$ cmake CMakeLists.txt`
 2. `$ make`
-3. `./data_structure_benchmarks > my_output_file.txt`
+3. `./data_structure_benchmarks --benchmark_color=false > my_output_file.txt`
 4. Set up a Python virtual environment in your `scripts` directory as above
 5. `$ cd scripts`
 6. `$ env/bin/python3 graph_results.py --file my_output_file.txt [--min-elements=N] [--max-elements=M]`
