@@ -12,12 +12,21 @@ if(${Boost_FOUND})
     endif()
 endif()
 
+find_package (LLVM 8 CONFIG REQUIRED)
+if (${LLVM_FOUND})
+    message (STATUS "Found LLVM ${LLVM_PACKAGE_VERSION}")
+    message (STATUS "Using LLVMConfig.cmake in: ${LLVM_DIR}")
+    include_directories (${LLVM_INCLUDE_DIRS})
+    add_definitions (${LLVM_DEFINITIONS})
+endif ()
+
+llvm_map_components_to_libnames(llvm_libs support)
+
 add_executable(llvm_data_structure_benchmarks
-		data_structure_benchmarks.cpp
-		lib/llvm/support/Error.cpp)
+		data_structure_benchmarks.cpp)
+target_link_libraries(llvm_data_structure_benchmarks ${llvm_libs})
 target_include_directories(llvm_data_structure_benchmarks SYSTEM PRIVATE
-		"/usr/local/Cellar/google-benchmark/1.3.0/include/" # Get this on Mac from $ brew install google-benchmark
-		"${CMAKE_CURRENT_SOURCE_DIR}/lib/llvm/include")
+		"/usr/local/Cellar/google-benchmark/1.3.0/include/") # Get this on Mac from $ brew install google-benchmark
 find_library(GOOGLE_BENCHMARK benchmark)
 target_link_libraries(llvm_data_structure_benchmarks
 		${GOOGLE_BENCHMARK})

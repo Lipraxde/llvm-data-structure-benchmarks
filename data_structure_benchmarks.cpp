@@ -185,7 +185,6 @@ const std::vector<int> & randomize_lookup_indices(size_t size);
 #if BENCHMARK_SETS
 template <typename Data> using SmallSet8 = llvm::SmallSet<Data, 8>;
 template <typename Data> using SmallSet16 = llvm::SmallSet<Data, 16>;
-template <typename Data> using ArraySet = FixedMaps::ArraySet<Data>;
 
 template<class ContainerT, class ValueT>
 void BM_set_insert(benchmark::State &state) {
@@ -213,7 +212,12 @@ void BM_set_read(benchmark::State& state) {
 	}
 	shuffle(vals_to_lookup.begin(), vals_to_lookup.end(), std::default_random_engine(0));
 	
-	ContainerT container(client.begin(), client.end());
+	ContainerT container;
+
+    for (auto I = client.begin(); I != client.end(); ++I) {
+        container.insert(*I);
+    }
+
 	int count = 0;
 	for(auto _ : state)
 	{
@@ -224,7 +228,7 @@ void BM_set_read(benchmark::State& state) {
 		benchmark::ClobberMemory();
 	}
 }
-BENCHMARK_TEMPLATES_4(BM_set_read, std::set, SmallSet8, SmallSet16, ArraySet);
+BENCHMARK_TEMPLATES_3(BM_set_read, std::set, SmallSet8, SmallSet16);
 #endif // BENCHMARK_SETS
 
 #if BENCHMARK_INTERVALMAPS
