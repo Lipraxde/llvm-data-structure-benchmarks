@@ -40,8 +40,10 @@ def parse_benchmark_results(benchmark_output, min_elements=None, max_elements=No
         While the sizes_in_bytes and cardinalities members are sorted lists.
     """
     def data_type_to_size(data_type):
-        if data_type == "int":
+        if data_type == "int32_t":
             return 4
+        elif data_type == "int64_t":
+            return 8
         elif data_type == "size_16":
             return 16
         elif data_type == "size_64":
@@ -89,7 +91,7 @@ def graph_results(benchmark_results, out_dir):
     """
     def name_file(benchmark_function_name, data_size, max_container_size):
         type = None
-        for potential_type in ['vector', 'set', 'map']:
+        for potential_type in ['vector', 'set', 'map', 'interval_map']:
             if ("_%s_" % potential_type) in benchmark_function_name:
                 type = potential_type
                 break
